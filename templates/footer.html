@@ -1,0 +1,33 @@
+<div id="topBar">
+	<ul id="topBar_logo">
+		<li>
+			<a class="item" href="http://125.221.225.209/bgstore/index.php" title="回到首页"></a>
+		</li>
+	</ul>
+	<ul id="topBar_login">
+		<li>
+			<?php
+			// ob_clean();
+			@session_start();
+			if(isset($_SESSION['current_user'])){
+			 	echo "<a class=\"user\" href=\"#\">".$_SESSION['current_user']."</a><a class=\"cart\" href=\"#\">购物车</a><a href=\"exit.php\">退出</a>";
+			}
+			else{
+			 	echo "<a class=\"user\" href=\"http://125.221.225.209/bgstore/login.php\">登录</a><a href='http://125.221.225.209/bgstore/register.php'>注册</a>";
+			}
+			?>
+			
+		</li>
+	</ul>
+</div><!-- end of topbar -->
+
+
+<div id="footer">
+	<ul>
+		<li><a href="http://125.221.225.210/BGbird/contact.html">联系我们</a></li>
+		<li><a href="http://125.221.225.210/BGbird/backend/admin.php">后台管理</a></li>
+		<li>&copy;版权归508所有</li>
+		<li><span>关注我们：新浪微博@微博里的毛毛虫</span></li>
+	</ul>
+</div><!-- end of footer -->
+</body>

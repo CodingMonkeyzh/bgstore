@@ -1,0 +1,205 @@
+body{
+	background: url(../images/debut_light.png);
+	border-bottom: 1px solid #ccc;
+}
+#topBar{
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 2em;
+	background: #464646;
+	opacity: 0.85;
+	z-index: 9999;
+	color: #FFFFFF;
+}
+#footer{
+	clear: both;
+	width: 100%;
+	height: 10em;
+	margin-top: 5em;
+	text-align: center;
+	background: #464646;
+	border-top: 2px solid #ccc;
+}
+#contain{
+	width: 960px;
+	margin: auto;
+	margin-top: 2em;
+	min-height: 40em;
+}
+#navSideBar{
+	position: absolute;
+	width: 220px;
+	min-height: 20em;
+	margin-top: 7.5em;
+	float: left;
+}
+
+#navSideBar_Kinds{
+	padding-bottom: 10px;
+	background: #364B5A;
+	box-shadow: 5px 1px 12px #777;
+}
+
+
+#navSideBar_Sale{
+	margin-top: 25px;
+	padding-bottom: 10px;
+	background: #AD4336;
+	box-shadow: 5px 1px 12px #999;
+}
+
+#searchForm{
+	position: absolute;
+	top:5em;
+	height: 1.85em;
+	margin-left: 220px;
+}
+
+#main{
+	width: 778px;
+	margin-top: 7.5em;
+	min-height: 40em;
+	float: left;
+	margin-left: 180px;
+	z-index: -1;
+	border: 1px solid #ccc;
+	-webkit-box-shadow: 1px 0 3px #ccc;
+	-moz-box-shadow: 1px 0 3px #ccc;
+	box-shadow: 1px 0 3px #ccc;
+	background: #FFF;
+}
+#main_content{
+	margin-left: 40px;
+}
+#login_contain{
+	width: 700px;
+	height: 350px;
+	margin: auto;
+	margin-top: 2em;
+	padding-top: 3em;
+}
+#login_leftPart{
+	float: left;
+	width: 400px;
+	height: 300px;
+	background: #364B5A url(../images/login_image.png) no-repeat;
+	box-shadow: 0 0px 20px #CCC;
+	z-index: 1;
+}
+#login_rightPart{
+	float: left;
+	width: 300px;
+	height: 300px;
+	background: #FFFFFF;
+	box-shadow: 0 0 20px #CCC;
+}
+#register_contain{
+	width: 700px;
+	min-height: 400px;
+	margin: auto;
+	margin-top: 2em;
+	padding-bottom: 5em;
+	text-align: center;
+	box-shadow: 0 0 20px #CCC;
+}
+#bookInfo_contain{
+	width: 700px;
+	min-height: 400px;
+	margin: auto;
+}
+.bookInfo_content{
+	float: left;
+	margin-bottom: 3em;
+	background: #FFF;
+	box-shadow: 0 0 8px #CCC;
+}
+.bookInfoImage{
+	float: right;
+	width: 300px;
+	min-height: 300px;
+	box-shadow: 3px 0 15px #CCC;
+}
+.bookDetail{
+	float: right;
+	width: 400px;
+	min-height: 305px;
+	background-color: #FcFcFc;
+}
+#bookInfo_part2 h3{
+	background: none repeat scroll 0 0 #B7D24A;
+    box-shadow: 0 0 1px #B7D24A;
+    color: #FFFFFF;
+    display: inline-block;
+    margin: -1em 1em 1em -1em;
+    padding: 0.75em 6em 0.75em 1.5em;
+}
+#bookInfo_part2 p{
+	padding: 1em;
+	margin: -0.5em 0 2.5em 1em;
+	font-size: 0.85em;
+	color: #555;
+	white-space: pre-wrap;
+}
+#bookInfo_part3 h3{
+	background: none repeat scroll 0 0 #F1D052;
+    box-shadow: 0 0 1px #F2E85C;
+    color: #FFFFFF;
+    display: inline-block;
+    margin: -1em 1em 1em -1em;
+    padding: 0.75em 6em 0.75em 1.5em;
+}
+.userImage {
+    background: none repeat scroll 0 0 #CCCCCC;
+    border: 1px solid #CCCCCC;
+    border-radius: 50% 50% 50% 50%;
+    display: inline-block;
+    float: left;
+    height: 50px;
+    margin: 0 10px;
+    overflow: hidden;
+    width: 50px;
+}
+.username{
+	display: block;
+	font-weight: bold;
+	color: #364B5A;
+	text-shadow: 1px 1px 1px #CCC;
+}
+.pubTime{
+	float: left;
+	margin-top: 0.5em;
+	font-size: small;
+	color: #999;
+}
+.bookComments p{
+	clear: both;
+	padding: 1em;
+	margin: 0 20px 2.5em 20px;
+	font-size: 0.85em;
+	color: #FFF;
+	white-space: pre-wrap;
+	border-radius: 5px;
+}
+
+.test {
+    background: #C94F40;
+    border-radius: 10px 10px 10px 10px;
+    margin: 60px;
+    position: relative;
+}
+.test span {
+    font-size: 0;
+    height: 0;
+    overflow: hidden;
+    position: absolute;
+    width: 0;
+}
+.test span.bot {
+    border-color: transparent  transparent #C94F40 transparent;
+    border-style: solid;
+    border-width: 20px;
+    left: 40px;
+    top: -40px;
+}
