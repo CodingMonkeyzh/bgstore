@@ -1,0 +1,268 @@
+<?php 	
+//////////////////////////
+///////////子类数组/////////
+//////////////////////////
+    @$conn = mysql_connect('125.221.225.210:3306','root','88888888');
+    @mysql_select_db('db_BookStore',$conn);
+    mysql_query("set names utf8");
+
+    $slist = array();
+    $sql = "select * from tb_SubClass";
+    $arr = mysql_query($sql, $conn);
+    $i = 1;
+    $j = 0;
+    while($value = mysql_fetch_array($arr))
+    {
+        if($value[1] != $i)
+        {
+          $i = $i + 1;
+          $j = 1;
+        }
+        else
+        {
+          $j = $j + 1;
+        }
+        $sub[$i][$j][0] = $value[2];
+        $sub[$i][$j][1] = $value[0];
+    }
+    $sub_class = json_encode($sub);
+?>
+
+<?php 
+////////////////////
+//封面图片的上传//////
+///////////////////
+	$file_ok = false;
+	if(isset($_POST['submit']) && $_POST['submit']=="提  交")
+	{
+		$dst_width = 300;
+		$dst_height = 300;
+		$type = $_FILES['path']['name'];
+//		echo "<script language='javascript'>alert('{$type}');</script>";
+		if ((($_FILES["path"]["type"] == "image/gif") || ($_FILES["path"]["type"] == "image/jpeg")
+      		|| ($_FILES["path"]["type"] == "image/pjpeg")) && ($_FILES["path"]["size"] < 60000))
+      	{
+       		if ($_FILES["path"]["error"] > 0)
+	        {
+	          echo "<script language='javascript'>alert('Return Code: " . $_FILES["path"]["error"] . "')</script><br />";
+	        }
+	        else
+	        {
+	          if (file_exists("../../images/" . $_FILES["path"]["name"]))
+	          {
+	              echo "<script type='javascript'>alert(\"$_FILES\['path']['name']\" already exists. );</script>";
+	          }
+	          else
+	          {
+	        //     move_uploaded_file($_FILES["path"]["tmp_name"],"../../images/" . $_FILES["path"]["name"]);
+	          		list($res_width,$res_height) = getimagesize($_FILES['path']['tmp_name']); //big_cover
+	          		$thumb = imagecreatetruecolor(300,300);
+	          		$source = imagecreatefromjpeg($_FILES['path']['tmp_name']);
+	          		$ok = imagecopyresized($thumb, $source, 0, 0, 0, 0, 300, 300, $res_width, $res_height);
+	          		imagejpeg($thumb,"../../images/".$_FILES['path']['name']);
+
+	          		$thumb = imagecreatetruecolor(60, 45);					//small_cover
+	          		$source = imagecreatefromjpeg($_FILES['path']['tmp_name']);
+	          		$ok = imagecopyresized($thumb, $source, 0, 0, 0, 0, 45, 60, $res_width, $res_height);
+	          		imagejpeg($thumb,"../../images/"."small-".$_FILES['path']['name']);
+	          		
+	            	$file_ok = true;
+	      	  }
+	      	}
+     	}
+	    else
+	    {
+	      	echo "<script type='text/javascript'>alert('Invalid file')</script>";
+	    }
+   }
+?>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>后台管理系统</title>
+<script type="text/javascript">
+//////////////////////
+//展现选择的封面图片/////
+//////////////////////
+function handleFileSelect(evt) 				
+{
+	var files = evt.target.files; // FileList object
+	for (var i = 0, f; f = files[i]; i++) 
+	{
+	    document.getElementById('bookcover').value = files[i].name;
+	  var reader = new FileReader();
+	  reader.onload = (function(theFile) 
+	  {
+	    return function(e) 
+	    {
+	      var span = document.getElementById('span');
+	      span.innerHTML = ['<img class="thumb" src="', e.target.result,
+	                        '" title="', escape(theFile.name), '"/>'].join('');
+	   //   document.getElementById('list').insertBefore(span, null);
+	    };
+	  })(f);
+	  reader.readAsDataURL(f);
+	}
+}
+///////////////////////////
+//选择主类后展现子类//////////
+///////////////////////////
+function MainClass_onchange()				
+{
+  var subclass = <? echo $sub_class ?>;
+  for(i=document.all("subClass").options.length ; i>0 ; i--)
+  {
+    document.all("subClass").options.remove(i-1);
+  }
+
+
+  if(document.all("mainClass").selectedIndex==0)
+  {
+    document.all("subClass").options.add(new Option("","-1"));
+    return;
+  }
+
+  var selIndex=document.all("mainClass").selectedIndex;
+  for(i=1 ; i<=6 ; i++)
+  {
+    document.all("subClass").options.add(new Option(subclass[selIndex][i][0],subclass[selIndex][i][1]));
+  }
+}
+</script>
+<style type="text/css">
+	#tab {
+		width:500px;
+	}
+	.tarea{
+		resize:none;
+	}
+	#cover{
+		border:0;
+		background:#73BDE8;
+		width: 50px;
+		margin-top:-5px;
+	}
+	#submit{
+		color:white;
+		text-align:center;
+		background: url(../button.jpg);
+		width:70px;
+		height:30px;
+		margin-left: 90%;
+	}
+	.input{
+		size:100;
+	}
+	.thumb {
+		width:300px;
+	    height: 250px;
+	    position:absolute;
+		top:0;
+		left:30%;
+    }
+</style>
+</head>
+<body>
+		<table>
+		<tr>
+		<td id='tab'>
+		<form name='form1' action=' ' method='post' enctype="multipart/form-data">
+			<label for='bookid'>书籍编号:</label>
+			<input type='text' name='bookid' value='' readonly size=20/><br /><br />
+			<label for='bookname'>书籍名称:</label>
+			<input type='text' name='bookname' value='' size=20/><br /><br />
+			<label for='bookauthor'>书籍作者:</label>
+			<input type='text' name='bookauthor' value='' size=20/><br /><br />
+			<label for='bookpublisher'>&nbsp出&nbsp版&nbsp商:</label>
+			<input type='text' name='bookpublisher' value='' size=20/><br /><br />
+			<label for='bookcover'>封面编号:</label>
+			<input type='text' name='bookcover' id='bookcover' size=12 />
+					<input type="button" id="cover" onclick="path.click();" value="浏览"> 
+					<input type="file" id="file" name="path" style="display:none" onchange="handleFileSelect(event)">
+			<br /><br />
+			<label for=''>书籍分类:</label>
+			<select id="mainClass" onchange="MainClass_onchange()">
+			  <?php
+			  	$conn = mysql_connect('125.221.225.210:3306','root','88888888');
+				mysql_select_db('db_BookStore');
+				mysql_query('set names utf8');
+			    $sql = "SELECT * FROM tb_MainClass";
+			    $main = mysql_query($sql, $conn);
+			    echo "<option value='' checked='checked'></option>";
+			    while($value=mysql_fetch_array($main))
+			    {
+			      echo "<option value='$value[0]'>$value[1]</option>";
+			    }
+			  ?>
+			</select>
+			<select id="subClass" name="subClass"> </select><br /><br />
+			<label for='bookintro'>书籍简介:</label><br />
+			<textarea name='bookintro' class='tarea' cols='80' rows='8'></textarea><br /><br />
+			<label for='bookcatalog'>书籍目录:</label><br />
+			<textarea name='bookcatalog' class='tarea' cols='80' rows='8'></textarea><br />
+			<label for='bookprice'>书籍价格:</label>
+			<input type='text' name='bookprice' value='' /><br />
+			<label for='booktotalcount'>书籍总量:</label>
+			<input type='text' name='booktotalcount' value='' /><br />
+			<label for='bookrestcount'>书籍余量:</label>
+			<input type='text' name='bookrestcount' value='' /><br />
+			<input type='submit' name='submit' value='提  交' id='submit' align='right' onclick="form2_submit()"/>
+		</form>
+		</td>
+		</tr>	
+	<span id="span"></span>
+</body>
+</html>
+<?php
+//////////////////////////////////
+//当文件上传成功后，将表单存储到数据库///
+//////////////////////////////////
+	if($file_ok)
+	{
+		$book_Name = $_POST['bookname'];
+		$book_Author = $_POST['bookauthor'];
+		$book_Publisher = $_POST['bookpublisher'];
+		$book_Intro = $_POST['bookintro'];
+		$book_Catalog = $_POST['bookcatalog'];
+		$book_Cover = $_POST['bookcover'];
+		$book_Price = $_POST['bookprice'];
+		$book_CountTotal = $_POST['booktotalcount'];
+		$book_CountRest = $_POST['bookrestcount'];
+		$book_Class = $_POST['subClass'];
+
+		$conn = mysql_connect('125.221.225.210:3306','root','88888888');
+		mysql_select_db('db_BookStore');
+		mysql_query('set names utf8');
+
+		$sql = "select * from tb_BookInfo where book_Name='$book_Name' and book_Author='$book_Author' 
+				and book_Publisher='$book_Publisher'";
+		$arr = mysql_query($sql, $conn) ;
+		if(mysql_num_rows($arr) != 0)
+		{
+			die("<script language='javascript'>alert('书籍已经存在！')</script>");
+		}
+
+		$sql = "insert into tb_BookInfo(book_Name,book_Author,book_Publisher,book_Intro,book_Cover,book_Catalog,book_Class) values
+		('$book_Name','$book_Author','$book_Publisher','$book_Intro','$book_Cover','$book_Catalog','$book_Class')";
+		//echo $sql;
+		$arr = mysql_query($sql,$conn) or die("tb_BookInfo插入失败");
+		$sql = "select book_ID from tb_BookInfo where book_Name='$book_Name' and book_Author='$book_Author'";
+		$arr = mysql_query($sql, $conn) or die("ID获取插入失败");
+		if($arr)
+		{
+			$value = mysql_fetch_array($arr);
+		}
+		$sql = "insert into tb_BookPrice(book_ID,book_Price) values('$value[0]','$book_Price')";
+		$arr = mysql_query($sql, $conn) ;
+		if(!$arr)
+		{
+			echo mysql_error();
+			die("tb_Price插入失败");
+		}
+		$sql = "insert into tb_BookCount(book_ID,book_CountTotal,book_COuntRest) values('$value[0]','$book_CountTotal','$book_CountRest')";
+		$arr = mysql_query($sql, $conn) or die("tb_BookCount插入失败");
+
+		echo "<script language='javascript'>alert('数据添加成功！');</script>";
+	}
+?>

@@ -1,6 +1,9 @@
 <?php
 	include('templates/header.html');
 ?>
+<title>注册 - BuGooStore</title>
+</head>
+<body>
 <div id="register_contain">
 	<form method="post" action="reg.php" name="form1">
 		<table>

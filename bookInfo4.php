@@ -1,5 +1,4 @@
 <?php
-	//echo "<br /><br />session=".$_SESSION['current_user'];
 	include('templates/header.html');
 	$conn = mysql_connect("125.221.225.210:3306","root","88888888");
 	mysql_select_db("db_BookStore");
@@ -17,9 +16,7 @@
 	$sql = "select * from tb_BookComment where book_ID=$bookID limit 0,5";
 	$comments = mysql_query($sql);   //书籍评论
 ?>
-<?php 
-if(isset($_POST['submit'])){
-	session_start();
+<?php if(isset($_POST['submit'])){
 	if(isset($_SESSION['current_user'])){
 		$username = $_SESSION['current_user'];
 		date_default_timezone_set("PRC");
@@ -28,17 +25,10 @@ if(isset($_POST['submit'])){
 		$bookId = $_GET['bookId'];
 		$sql = "insert into tb_BookComment values('$bookId','$username','$nowTime','$cmtContent')";
 		$arr = mysql_query($sql, $conn);
-		if($arr){
-			echo "<script type='text/javascript'>document.location.href='bookInfo.php?bookId=$bookId'</script>";
-		}
-	}
-	else{
-		echo "<script language='javascript'>alert('您还没有登录，不可以进行评论!');</script>";
-	}
+		if($arr){echo "<scripttype='text/javascript'>document.location.href='bookInfo.php?bookId=$bookId'</script>";}}
+		else{echo "<script language='javascript'>alert('您还没有登录，不可以进行评论!');</script>";}
 }?>
-<title>书籍信息：<?php echo $bookinfo[1]; ?> - BuGooStore</title>
-</head>
-<body>
+
 <div id="bookInfo_contain">
 	<div class="bookInfo_content mt5em">
 		<div id="bookInfo_part1">
@@ -52,7 +42,7 @@ if(isset($_POST['submit'])){
 					<li><a href="#comments">商品评论：<span><?php echo mysql_num_rows($comments); ?></span></a></li>
 				</ul>
 				<form>
-					<input type="submit" value="加入购物车" />
+					<input type="submit" value="立即购买" />
 				</form>
 			</div>
 			<div class="bookInfoImage">

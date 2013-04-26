@@ -9,6 +9,9 @@
 		$result = verify_login();
 	}
 ?>
+<title>登录 - BuGooStore</title>
+</head>
+<body>
 	<div id="login_contain">
 		
 		<div id="login_leftPart">
@@ -19,16 +22,16 @@
 				<table>
 					<tbody>
 						<tr>
-							<td class="fr w3em">Email:</td>
-							<td  class="w10em"><input type="text" name="username" /></td>
+							<td class="fr w3em"><label for="username">Email:</label></td>
+							<td  class="w10em"><input type="text" name="username" id="username" /></td>
 						</tr>
 						<tr>
-							<td class="fr w3em">密码:</td>
-							<td class="w10em"><input type="password" name="password"  /></td>
+							<td class="fr w3em"><label for="password">密码:</label></td>
+							<td class="w10em"><input type="password" name="password" id="password" /></td>
 						</tr>
 						<tr>
-							<td class="fr w3em">验证码:</td>
-							<td><input class="fl w4em h20px" type="text" name="validationcode" maxlength="4" /><img class="fl" src="imgcode.php" alt="验证码" style="cursor:pointer;" onclick="newcode(this,this.src);"/></td>
+							<td class="fr w3em"><label for="validationcode"> 验证码:</label></td>
+							<td><input class="fl w4em h20px" type="text" name="validationcode" id="validationcode" maxlength="4" /><img class="fl" src="imgcode.php" alt="验证码" style="cursor:pointer;" onclick="newcode(this,this.src);"/></td>
 						</tr>
 						<tr>
 							<td></td>
